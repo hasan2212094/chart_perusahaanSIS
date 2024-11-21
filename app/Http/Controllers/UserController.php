@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
+use Illuminate\Auth\Events\Validated;
 use function Laravel\Prompts\password;
 
 class UserController extends Controller
@@ -75,7 +76,7 @@ class UserController extends Controller
         return view('auth.register');
     }
 
-    public function registerstore(Request $request)
+    public function registerStore(Request $request)
     {
         $validate = $request->validate([
             'name' =>'required',
@@ -88,6 +89,19 @@ class UserController extends Controller
             return redirect()->route('login')->with('success','Registrasi berhasil');
         } else{
             return redirect()->route('register')->with('error','Registrasi gagal');
+        }
+    }
+    public function loginCheck(Request $request)
+    {
+        $validate = $request->validate([
+            'email' =>'required|email',
+            'password' => 'required'
+        ]);
+        if(Auth::attempt($validate)){
+            $request->session()->regenerate();
+            return redirect()->intended('/dashboard');
+        }else{
+            return back()->with('error','Login gagal');
         }
     }
 }

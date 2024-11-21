@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('pembelians', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('PenjualanId');
+            $table->unsignedBigInteger('Produkid');
+            $table->integer('JumlahProduk');
+            $table->decimal('SubTotal', 10, 2);
             $table->timestamps();
         });
     }
