@@ -20,3 +20,5 @@ Route::post('/login',[UserController::class,'loginCheck'])->name('login.check');
 Route::resource('users',UserController::class);
 
 Route::get('/dashboard', function () {return view('admin.dashboard');})-> middleware(['auth'])->name('dashboard');
+
+Route::get('/logout',[UserController::class,'logout'])->name('logout');
